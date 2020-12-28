@@ -8,9 +8,9 @@ class ValidationData:
         return True
 
     @staticmethod
-    def is_photos_number_valid():
+    def is_images_number_valid():
         return True
 
     @staticmethod
-    def is_photos_format_valid():
+    def is_images_format_valid():
         pass
