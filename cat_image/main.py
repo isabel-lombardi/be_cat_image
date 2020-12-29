@@ -27,14 +27,5 @@ def login():
         return {'status': 'OK'}, 200
 
 
-# Route for handling the upload page logic
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        return {'status': 'OK'}, 200
-    else:
-        return {'status': 'error', 'message': 'GET Method Not Allowed'}, 405
-
-
 if __name__ == "__main__":
     app.run(debug=True, port=5000)  # run app in debug mode on port 5000
