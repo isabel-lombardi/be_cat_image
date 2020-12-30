@@ -1,9 +1,11 @@
-![GitHub Logo](docs/logo.png)
+![GitHub Logo](docs/app_manifest.jpg)
+
 #Cat.Image
 
 ### How to lunch the program
 
 ### Structure
+
 ####cat_image folder:
   
 - categorization folder:
