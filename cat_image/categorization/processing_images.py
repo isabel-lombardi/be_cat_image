@@ -24,3 +24,10 @@ class ProcessingImages:
         file_type = image.format
 
         image.save("{}/{}.{}".format(folder, idx, file_type.lower()), '{}'.format(file_type))
+
+    @staticmethod
+    def empty_folder():
+        for root, dirs, files in os.walk('user_images'):
+            for f in files:
+                if f != "README.md":
+                    os.unlink(os.path.join(root, f))
