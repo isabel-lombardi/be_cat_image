@@ -1,4 +1,4 @@
-![GitHub Logo](docs/logo%20repo.png)
+![GitHub Logo](docs/logo_repo.png)
 
 # Cat.Image
 
