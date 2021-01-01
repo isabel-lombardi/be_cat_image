@@ -43,8 +43,8 @@ def upload():
             reply_message['message'] = 'Incorrect images quantity'
             return reply_message, 400
 
-        processing_images = ProcessingImages(images_data)
         try:
+            processing_images = ProcessingImages(images_data)
             decoded_images = processing_images.decoding()  # decode images and return in a list
         except:
             reply_message['status'] = 'error'
@@ -79,7 +79,10 @@ def upload():
             try:
                 ProcessingImages.empty_folder()
             except:
+                # send OK response with the categorization results, despite the empty_folder being unsuccessful
+                reply_message['message'] = 'Categorization successfully processed, but empty_folder failed'
                 return reply_message, 200
+            return reply_message, 200
 
 
 if __name__ == "__main__":
