@@ -10,7 +10,6 @@
   
 - categorization folder:
     
-    - user_images folder, contain the user's images once the format is validated. When the categorization process is completed and the result is shown to the user, this folder will be emptied
     - categorization.py, contains the categorization class that takes care of taking the user's images as input, transforms them on the basis of the parameters required by the model and outputs the prediction of the class they belong   
     - imagenet.classes.txt, contains 1000 classes for the model
     - processing_image.py, takes care of decoding images from base64 and saves them in the user_images folder
