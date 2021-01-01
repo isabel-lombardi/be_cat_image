@@ -5,18 +5,17 @@ import torch
 from PIL import Image
 
 
+# imagenet_classes file
+imagenet_classes_file_path = os.path.join('categorization', 'imagenet_classes.txt')
+
+
 class Categorization:
-    def __init__(self):
-        self.images = []
+
+    def __init__(self, images):
+        self.images = images
+
         # pre-trained model
         self.resnet = models.resnet101(pretrained=True)
-
-    def load_input_images(self):
-        path = 'user_images'
-
-        for image in os.listdir(path):
-            if image != "README.md":
-                self.images.append(Image.open(os.path.join(path, image)))
 
     # Transform the input image with values similar to those used during model training.
     @staticmethod
@@ -33,19 +32,27 @@ class Categorization:
     def use_template(self):
         result = {}
 
-        for idx, image in enumerate(self.images, 1):
-            image_t = Categorization.transform_input_images(image)
-            batch_t = torch.unsqueeze(image_t, 0)
+        for key, value in self.images.items():
+            try:
+                image_t = Categorization.transform_input_images(value)
+                batch_t = torch.unsqueeze(image_t, 0)
 
-            self.resnet.eval()          # network in eval mode
-            out = self.resnet(batch_t)  # model inference
+                self.resnet.eval()          # network in eval mode
+                out = self.resnet(batch_t)  # model inference
 
-            with open('imagenet_classes.txt') as f:
-                classes = [line.strip() for line in f.readlines()]
+                try:
+                    with open('imagenet_classes.txt') as f:
+                        classes = [line.strip() for line in f.readlines()]
+                except IOError:
+                    return 'Error occurred while opening the file.'
 
-            _, indices = torch.sort(out, descending=True)
-            percentage = torch.nn.functional.softmax(out, dim=1)[0] * 100
+                _, indices = torch.sort(out, descending=True)
+                percentage = torch.nn.functional.softmax(out, dim=1)[0] * 100
 
-            result[idx] = [(classes[idx], percentage[idx].item()) for idx in indices[0][:1]]
+                result[key] = [(classes[idx], percentage[idx].item()) for idx in indices[0][:1]]
+
+            except:
+                result[key] = None
 
         return result
+
