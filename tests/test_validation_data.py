@@ -62,8 +62,9 @@ def test_images_format_validation():
     assert img_cat.format == 'PNG'
     assert bmp_img.format == 'BMP'
 
-    assert ValidationData.images_format_validation([img_dog]) == []
-    assert ValidationData.images_format_validation([img_dog, img_cat]) == []
-    assert ValidationData.images_format_validation([img_dog, bmp_img]) == [1]
+    assert ValidationData.images_format_validation({'1': img_dog}) == []
+    assert ValidationData.images_format_validation({'1': img_dog, '2': img_cat}) == []
+    assert ValidationData.images_format_validation({'1': img_dog, '2': bmp_img}) == ['2']
     assert ValidationData.images_format_validation(
-        [img_dog, img_cat, bmp_img, img_dog, img_cat, bmp_img, img_dog, img_cat, bmp_img, img_dog]) == [2, 5, 8]
+        {'1': img_dog, '2': img_cat, '3': bmp_img, '4': img_dog, '5': img_cat, '6': bmp_img, '7': img_dog, '8': img_cat,
+         '9': bmp_img, '10': img_dog}) == ['3', '6', '9']

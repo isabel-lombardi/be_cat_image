@@ -66,9 +66,8 @@ def upload():
             return reply_message, 400
         else:
             try:
-                categorization = Categorization()
-                categorization.load_input_images()  # read images from dir and put in self.images list
-                result = categorization.use_template()  # analyze self.images list and return results
+                categorization = Categorization(decoded_images)
+                result = categorization.use_template()
             except:
                 reply_message['status'] = 'error'
                 reply_message['message'] = 'Categorization failed'
@@ -77,12 +76,6 @@ def upload():
             reply_message['status'] = 'OK'
             reply_message['message'] = 'Categorization successfully processed'
             reply_message['result'] = result
-            try:
-                ProcessingImages.empty_folder()
-            except:
-                # send OK response with the categorization results, despite the empty_folder being unsuccessful
-                reply_message['message'] = 'Categorization successfully processed, but empty_folder failed'
-                return reply_message, 200
             return reply_message, 200
 
 
