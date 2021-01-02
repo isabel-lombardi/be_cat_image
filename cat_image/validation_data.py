@@ -1,4 +1,6 @@
 from re import search
+
+
 class ValidationData:
     @staticmethod
     def is_username_valid(login_data: dict):
@@ -19,5 +21,16 @@ class ValidationData:
         return True
 
     @staticmethod
-    def is_images_format_valid():
-        pass
+    def images_format_validation(decoded_images: dict) -> list:
+        """If the format of some images is wrong it returns the ids of the wrong images,
+        otherwise, if everything is ok, return empty list
+
+        :param decoded_images:
+        :return: list of id of wrong images
+        """
+        wrong_images_id = []
+        for key in decoded_images:
+            if not decoded_images[key].format in ['JPEG', 'PNG']:
+                # print(decoded_images[idx].format)
+                wrong_images_id.append(key)
+        return wrong_images_id
