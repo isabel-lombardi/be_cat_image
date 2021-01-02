@@ -34,3 +34,27 @@ class ValidationData:
                 # print(decoded_images[idx].format)
                 wrong_images_id.append(key)
         return wrong_images_id
+
+    @staticmethod
+    def is_json_login_data_valid(login_data: dict) -> bool:
+        """Check if the username and password keys exist in the json
+
+        :param login_data:
+        :return: bool
+        """
+        for key in ['username', 'password']:
+            if key not in login_data:
+                return False
+        return True
+
+    @staticmethod
+    def is_json_images_data_valid(images_data: dict) -> bool:
+        """Check that the json keys are integers
+
+        :param images_data:
+        :return: bool
+        """
+        for key in images_data:
+            if not key.isdigit():
+                return False
+        return True
