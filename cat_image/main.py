@@ -17,6 +17,12 @@ app = Flask(__name__)  # create the Flask app
 def login():
     login_data = request.get_json()
     reply_message = {}
+
+    if not ValidationData.is_json_login_data_valid(login_data):
+        reply_message['status'] = 'error'
+        reply_message['message'] = 'Incorrect json'
+        return reply_message, 400
+
     if not ValidationData.is_username_valid(login_data):
         reply_message['status'] = 'error'
         reply_message['message'] = 'Incorrect username or email'
@@ -38,6 +44,12 @@ def upload():
     if request.method == 'POST':
         reply_message = {}
         images_data = request.get_json()
+
+        if not ValidationData.is_json_images_data_valid(images_data):
+            reply_message['status'] = 'error'
+            reply_message['message'] = 'Incorrect json'
+            return reply_message, 400
+
         if not ValidationData.is_images_number_valid(images_data):
             reply_message['status'] = 'error'
             reply_message['message'] = 'Incorrect images quantity'

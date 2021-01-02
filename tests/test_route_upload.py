@@ -58,3 +58,17 @@ def test_route_upload_bmp_format():
     assert data['status'] == "error"
     assert data['message'] == 'Incorrect images format'
     assert data['wrong_images_id'] == ['1']
+
+
+def test_route_upload_bad_json():
+    response = app.test_client().post(
+        '/upload',
+        data=json.dumps({'1': 'images_01', 'YYY': 'images_02'}),
+        content_type='application/json',
+    )
+
+    data = json.loads(response.get_data(as_text=True))
+
+    assert response.status_code == 400
+    assert data['status'] == "error"
+    assert data['message'] == 'Incorrect json'
