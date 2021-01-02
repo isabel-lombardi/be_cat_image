@@ -43,13 +43,14 @@ def upload():
             reply_message['message'] = 'Incorrect images quantity'
             return reply_message, 400
 
-        try:
-            processing_images = ProcessingImages(images_data)
-            decoded_images = processing_images.decoding()  # decode images and return in a list
-        except:
+        processing_images = ProcessingImages(images_data)
+        # returns decoded images
+        result_ok, decoded_images, wrong_files_id = processing_images.decoding()
+        if not result_ok:
             reply_message['status'] = 'error'
             reply_message['message'] = 'Decoding failed'
-            return reply_message, 500
+            reply_message['wrong_images_id'] = wrong_files_id
+            return reply_message, 400
 
         try:
             wrong_images_id = ValidationData.images_format_validation(decoded_images)

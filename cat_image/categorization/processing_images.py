@@ -1,33 +1,29 @@
-import os
-
-from base64 import b64decode, b64encode
+from base64 import b64decode
 from PIL import Image
 from io import BytesIO
 
 
 class ProcessingImages:
-    decoded_images = []
-
     def __init__(self, json):
         self.json = json
 
     def decoding(self):
-        for value in self.json.values():
-            image = Image.open(BytesIO(b64decode(value)))
-            ProcessingImages.decoded_images.append(image)
+        """Returns a tuple result_ok, decoded_images, wrong_files_id:
+            result_ok = False if the format of some images is wrong
+            decoded_images = the decoded images in a dictionary
+            wrong_files_id = the ids of the wrong images in a list
 
-        return ProcessingImages.decoded_images
-
-    @staticmethod
-    def save_image(idx, image):
-        folder = "user_images"
-        file_type = image.format
-
-        image.save("{}/{}.{}".format(folder, idx, file_type.lower()), '{}'.format(file_type))
-
-    @staticmethod
-    def empty_folder():
-        for root, dirs, files in os.walk('user_images'):
-            for f in files:
-                if f != "README.md":
-                    os.unlink(os.path.join(root, f))
+        :return: result_ok, decoded_images, wrong_files_id
+        """
+        result_ok = True
+        decoded_images = {}
+        wrong_files_id = []
+        for key in self.json:
+            try:
+                decoded_image = Image.open(BytesIO(b64decode(self.json[key])))
+            except:
+                result_ok = False
+                wrong_files_id.append(key)
+                continue
+            decoded_images[key] = decoded_image
+        return result_ok, decoded_images, wrong_files_id
