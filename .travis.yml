@@ -11,15 +11,4 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python -m pytest tests.test_route_login
-  - python -m pytest tests.test_route_upload
-  - python -m pytest tests.test_validation_data
-"""
-deploy:
-  provider: heroku
-  api_key:
-    secure:
-  app: cat-image-t2
-  on:
-    repo: isabel-lombardi / be_cat_images
-"""
+  - pytest
