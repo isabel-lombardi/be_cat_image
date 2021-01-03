@@ -14,7 +14,17 @@ class ValidationData:
 
     @staticmethod
     def is_password_valid(login_data: dict):
-        return True
+        symbols = ['?','#','$','%','@','.',",","_","-",'+']
+        if len(login_data['password']) < 6:
+            return False
+        if not any(c in symbols for c in login_data['password']):
+            return False
+        if not any(char.isupper() for char in login_data['password']): 
+            return False
+        if not any(char.isdigit() for char in login_data['password']):
+            return False
+        else:
+            return True
 
     @staticmethod
     def is_images_number_valid():
