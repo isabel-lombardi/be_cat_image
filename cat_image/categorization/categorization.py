@@ -7,6 +7,8 @@ from PIL import Image
 
 # imagenet_classes file
 imagenet_classes_file_path = os.path.join('categorization', 'imagenet_classes.txt')
+file_abs_path = os.path.abspath(os.path.dirname(__file__))
+imagenet_classes_file_path = os.path.join(file_abs_path, 'imagenet_classes.txt')
 
 
 class Categorization:
@@ -41,7 +43,7 @@ class Categorization:
                 out = self.resnet(batch_t)  # model inference
 
                 try:
-                    with open('imagenet_classes.txt') as f:
+                    with open(imagenet_classes_file_path) as f:
                         classes = [line.strip() for line in f.readlines()]
                 except IOError:
                     return 'Error occurred while opening the file.'
