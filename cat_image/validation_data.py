@@ -27,7 +27,9 @@ class ValidationData:
             return True
 
     @staticmethod
-    def is_images_number_valid():
+    def is_images_number_valid(image_data):
+        if len(image_data) > 10:
+            return False
         return True
 
     @staticmethod
