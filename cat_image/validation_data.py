@@ -30,7 +30,10 @@ class ValidationData:
     def is_images_number_valid(image_data):
         if len(image_data) > 10:
             return False
-        return True
+        if len(image_data) == 0:
+            return False
+        else:
+            return True
 
     @staticmethod
     def images_format_validation(decoded_images: dict) -> list:
