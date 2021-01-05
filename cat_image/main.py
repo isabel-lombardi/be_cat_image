@@ -76,15 +76,21 @@ def upload():
             reply_message['message'] = 'Incorrect images format'
             reply_message['wrong_images_id'] = wrong_images_id
             return reply_message, 400
-        else:
-            try:
-                categorization = Categorization(decoded_images)
-                result = categorization.use_template()
-            except:
-                reply_message['status'] = 'error'
-                reply_message['message'] = 'Categorization failed'
-                return reply_message, 500
 
+        try:
+            categorization = Categorization(decoded_images)
+
+        except:
+            reply_message['status'] = 'error'
+            reply_message['message'] = 'Categorization failed models.resnet101 error'
+            return reply_message, 500
+
+        result_ok, result = categorization.use_template()
+        if not result_ok:
+            reply_message['status'] = 'error'
+            reply_message['message'] = 'Categorization failed'
+            return reply_message, 500
+        else:
             reply_message['status'] = 'OK'
             reply_message['message'] = 'Categorization successfully processed'
             reply_message['result'] = result
