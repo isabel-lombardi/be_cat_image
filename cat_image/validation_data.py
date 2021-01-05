@@ -1,20 +1,30 @@
 from re import search
+from string import digits, ascii_letters
 
 
 class ValidationData:
     @staticmethod
     def is_username_valid(login_data: dict):
-        regex = '^[a-z0-9A-Z]+[\._]?[a-z0-9A-Z]+[@]\w+[.]\w{2,3}$'
-        if search(regex, login_data["username"]):
-            return True
-        elif len(login_data["username"]) >= 4 or len(login_data["username"]) <= 10:
+        symbols_allowed = "._-"
+        characters_allowed = digits + ascii_letters + symbols_allowed
+        username = login_data["username"]
+        regex = '^[a-z0-9A-Z]+[\._]?[a-z0-9A-Z]+[@]\w+[.]\w{2,6}$'
+        if search(regex, username):
+            if len(username)<=255:
+                return True
+            else:
+                return False
+        elif len(username) >= 4 and len(username) <= 10:
+            for c in username:
+                if c not in characters_allowed:
+                    return False
             return True
         else:
             return False
-
+        
     @staticmethod
     def is_password_valid(login_data: dict):
-        symbols = ['?','#','$','%','@','.',",","_","-",'+']
+        symbols = '?#$%@,._-+'
         if len(login_data['password']) < 6:
             return False
         if not any(c in symbols for c in login_data['password']):
@@ -73,3 +83,5 @@ class ValidationData:
             if not key.isdigit():
                 return False
         return True
+        
+    
