@@ -32,6 +32,7 @@ class Categorization:
         return transform(image)
 
     def use_template(self):
+        result_ok = True
         result = {}
 
         for key, value in self.images.items():
@@ -46,7 +47,8 @@ class Categorization:
                     with open(imagenet_classes_file_path) as f:
                         classes = [line.strip() for line in f.readlines()]
                 except IOError:
-                    return 'Error occurred while opening the file.'
+                    result_ok = False
+                    return result_ok, result
 
                 _, indices = torch.sort(out, descending=True)
                 percentage = torch.nn.functional.softmax(out, dim=1)[0] * 100
@@ -56,5 +58,5 @@ class Categorization:
             except:
                 result[key] = None
 
-        return result
+        return result_ok, result
 
