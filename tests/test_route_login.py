@@ -6,7 +6,7 @@ from cat_image.main import app
 def test_route_login():
     response = app.test_client().post(
         '/login',
-        data=json.dumps({'username': 'admin', 'password': 'admin'}),
+        data=json.dumps({'username': 'admin', 'password': 'Ab123$'}),
         content_type='application/json',
     )
 
@@ -20,7 +20,7 @@ def test_route_login():
 def test_route_login_bad_username():
     response = app.test_client().post(
         '/login',
-        data=json.dumps({'username': 'ab', 'password': 'admin'}),
+        data=json.dumps({'username': 'abc', 'password': 'Ab123$'}),
         content_type='application/json',
     )
 
