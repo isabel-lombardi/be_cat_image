@@ -1,1 +1,1 @@
-web: gunicorn cat_image/main:app
+web: gunicorn --chdir ./cat_image main:app
