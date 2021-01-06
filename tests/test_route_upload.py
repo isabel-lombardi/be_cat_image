@@ -1,7 +1,6 @@
 from flask import json
-from time import sleep
 
-from cat_image.main import app
+from main import app
 from tests.data.images_data import golden_retriver_base64, bmp_image
 
 dict_OK = {'1': golden_retriver_base64, '2': golden_retriver_base64}

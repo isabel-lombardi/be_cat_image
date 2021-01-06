@@ -1,6 +1,6 @@
 from flask import json
 
-from cat_image.main import app
+from main import app
 
 
 def test_route_login():

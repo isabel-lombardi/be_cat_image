@@ -6,9 +6,11 @@ from cat_image.categorization.processing_images import ProcessingImages
 from cat_image.categorization.categorization import Categorization
 
 app = Flask(__name__)  # create the Flask app
-CORS(app, origins="https://cat-image-t2.netlify.app", allow_headers=[
+cors = CORS(app, resorces={r'/*': {"origins": '*'}})
+
+"""cors = CORS(app, origins="https://cat-image-t2.netlify.app", allow_headers=[
     "Content-Type", "Authorization", "Access-Control-Allow-Credentials"],
-    supports_credentials=True, intercept_exceptions=False)
+    supports_credentials=True, intercept_exceptions=False)"""
 
 
 # Route for handling the login page logic
