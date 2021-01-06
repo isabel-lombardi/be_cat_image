@@ -19,14 +19,12 @@ def test_route_upload():
     data = json.loads(response.get_data(as_text=True))
 
     print(response)
-    assert response.status_code == 200  # <<<***
-    # assert data['message'] == "OK"      # <<<***
+    assert response.status_code == 200
     assert data['status'] == "OK"
     assert data['result']['1'][0][0] == "golden retriever"
-    assert data['result']['1'][0][1] == 44.376583099365234  # 43.70540237426758
+    assert abs(data['result']['1'][0][1] - 44.37) <= 0.01
     assert data['result']['2'][0][0] == "golden retriever"
-    assert data['result']['2'][0][1] == 44.376583099365234  # 43.70540237426758
-    # { '1': [['golden retriever', 43.70540237426758]] }
+    assert abs(data['result']['2'][0][1] - 44.37) <= 0.01
 
 
 def test_route_upload_bad_format():

@@ -12,26 +12,48 @@ def test_is_username_valid():
     assert ValidationData.is_username_valid({'username': 'adm@gmail.com', 'password': good_password})
     assert ValidationData.is_username_valid({'username': 'administra@gmail.com', 'password': good_password})
     assert ValidationData.is_username_valid({'username': 'giorgio@giorgiomontanini.info', 'password': good_password})
+    assert ValidationData.is_username_valid({'username': 'gio.mont@alibaba.market', 'password': good_password})
+    assert ValidationData.is_username_valid({'username': 'ab@c.de', 'password': good_password})
+    assert ValidationData.is_username_valid({'username': 'a'*250 + '@c.de', 'password': good_password})
+    assert not ValidationData.is_username_valid({'username': 'a'*251 + '@c.de', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': 'a b c', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': 'a' * 2000 + '@gmail.com', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': '@administr', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': 'administr@', 'password': good_password})
+    assert not ValidationData.is_username_valid({'username': 'administrat', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': 'adm', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': '', 'password': good_password})
-    assert not ValidationData.is_username_valid({'username': '1234', 'password': good_password})
+    assert ValidationData.is_username_valid({'username': '1234', 'password': good_password})
     assert not ValidationData.is_username_valid({'username': '++++', 'password': good_password})
     # punctuation = r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
-    assert not ValidationData.is_username_valid({'username': r"""!"#$%&'()*+,-/:;<=>?[\]^`{|}~""",
+    # characters_not_allowed is punctuation minus "._-"
+    characters_not_allowed = r"""!"#$%&'()*+,/:;<=>?@[\]^`{|}~"""
+    assert not ValidationData.is_username_valid({'username': characters_not_allowed[0:10],
                                                  'password': good_password})
+    assert not ValidationData.is_username_valid({'username': characters_not_allowed[10:20],
+                                                 'password': good_password})
+    assert not ValidationData.is_username_valid({'username': characters_not_allowed[20:30],
+                                                 'password': good_password})
+    for char in characters_not_allowed:
+        assert not ValidationData.is_username_valid({'username': 'abc'+char,
+                                                    'password': good_password})
 
 
 def test_is_password_valid():
     good_username = 'ma.lasciatemi@libero.it'
     assert ValidationData.is_password_valid({'username': good_username, 'password': 'Ab123@'})
-    assert not ValidationData.is_password_valid({'username': good_username, 'password': '12345'})
-    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcde'})
-    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'ABCDE'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': '123456'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcdef'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'ABCDEF'})
     assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcdeABCDE'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcde12345'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcde@@@@@'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcdeAB12'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcdeAB@'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'abcde12@'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'AB12@?'})
+    assert not ValidationData.is_password_valid({'username': good_username, 'password': 'aA1#$'})
+    assert ValidationData.is_password_valid({'username': good_username, 'password': 'aA1#$a'})
     assert not ValidationData.is_password_valid({'username': good_username, 'password': ''})
     # less than min length
     # assert not ValidationData.is_password_valid({'username': good_username, 'password': 'Ab3@'})

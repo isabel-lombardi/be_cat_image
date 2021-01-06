@@ -8,7 +8,7 @@ class ValidationData:
         symbols_allowed = "._-"
         characters_allowed = digits + ascii_letters + symbols_allowed
         username = login_data["username"]
-        regex = '^[a-z0-9A-Z]+[\._]?[a-z0-9A-Z]+[@]\w+[.]\w{2,6}$'
+        regex = r'^[a-z0-9A-Z]+[\._]?[a-z0-9A-Z]+[@]\w+[.]\w{2,6}$'
         if search(regex, username):
             if len(username)<=255:
                 return True
@@ -30,6 +30,8 @@ class ValidationData:
         if not any(c in symbols for c in login_data['password']):
             return False
         if not any(char.isupper() for char in login_data['password']): 
+            return False
+        if not any(char.islower() for char in login_data['password']):
             return False
         if not any(char.isdigit() for char in login_data['password']):
             return False
